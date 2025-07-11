@@ -1,9 +1,10 @@
-/* to be filled */
+
 
 body {
   background-image: url('https://wallpaperaccess.com/full/7562500.jpg');  
   background-size: cover;     
   background-repeat: no-repeat; 
+  text-align: center;
 }
 button {
   background: linear-gradient(45deg, #ff3b3b, #ff0000);
