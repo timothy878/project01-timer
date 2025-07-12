@@ -93,14 +93,16 @@ button:active {
 .header-title {
   font-weight: normal;
   font-family: Roboto, sans-serif;
-  font-size: 3rem;
+  font-size: clamp(1rem, 5vw, 3rem);
   margin-right: auto;
+  min-width: 0;
 }
 
 .navbar button {
   /* width: clamp(100px, 20%, 300px); */
   width: 30px;
-  /* height: 30px; */
+  height: 30px;
+  margin: auto 0;
   padding: 0;
   background-color: inherit;
   transition: transform 0.4s ease;

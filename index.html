@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Brawl Stars Timer</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/images/brawl_tab_icon.webp" type="images/x-icon">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,11 +12,14 @@
 </head>
 <body>
   <main>
+    <!-- Audio -->
+     <audio id="bg-music" src="assets/audio/brawl_stars_menu_01.mp3" autoplay loop muted></audio>
+
     <!-- Brawl Stars Themed  -->
     <div class="navbar">
       <h1 class="header-title">Brawl Break Timer</h1>
       <button id="audio">
-        <img src="assets/images/audio-on.svg" alt="mute" />
+        <img id="audio-icon" src="assets/images/audio_on.svg" alt="unmute" title="Unmute audio" />
       </button>
       <button id="settings">
         <img src="assets/images/setting.svg" alt="settings" />
