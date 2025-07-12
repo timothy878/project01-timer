@@ -4,13 +4,34 @@
   <meta charset="UTF-8" />
   <title>Brawl Stars Timer</title>
   <link rel="stylesheet" href="style.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lilita+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
   <main>
-    <h1>Brawl Stars Themed Timer</h1>
-    <button id="startBtn">Start!</button>
-      <!-- <audio id="bgMusic" src="" autoplay loop></audio> Bryce, make an mp3 of brawl stars background and attach mp3 under source-->
-    <button id="muteBtn">Mute Music!</button>
+    <!-- Brawl Stars Themed  -->
+    <div class="navbar">
+      <h1 class="header-title">Brawl Break Timer</h1>
+      <button id="audio">
+        <img src="assets/images/audio-on.svg" alt="mute" />
+      </button>
+      <button id="settings">
+        <img src="assets/images/setting.svg" alt="settings" />
+      </button>
+    </div>
+
+    <div class="container">
+      <div class="timer-holder">
+        <div class="timer">25:00</div>
+      </div>
+    </div>
+
+    <div class="button-bar">
+      <button id="startBtn">play</button>
+      <!-- Mute Music! -->
+    </div>
   </main>
 
   <script src="script.js"></script>
