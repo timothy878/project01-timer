@@ -13,27 +13,58 @@
 <body>
   <main>
     <!-- Audio -->
+    <audio class="click-sfx" src="assets/audio/Click Sound Effect.mp3" muted></audio>
      <audio id="bg-music" src="assets/audio/brawl_stars_menu_01.mp3" autoplay loop muted></audio>
+     <audio id="final-seconds-music" src="assets/audio/15-second-countedown.mp3"  muted></audio>
+     <audio id="end-sound" src="assets/audio/brawl-stars-win.mp3"  muted></audio>
+     <audio id="start-sound" src="assets/audio/round-begin-brawl-stars.mp3"  muted></audio>
+     <audio id="level-brawl-pass" src="assets/audio/level-up.mp3"  muted></audio>
 
     <!-- Brawl Stars Themed  -->
     <div class="navbar">
       <h1 class="header-title">Brawl Break Timer</h1>
-      <button id="audio">
+      <button id="audio" class="clicky">
         <img id="audio-icon" src="assets/images/audio_on.svg" alt="unmute" title="Unmute audio" />
       </button>
-      <button id="settings">
+      <button id="settings" class="clicky">
         <img src="assets/images/setting.svg" alt="settings" />
       </button>
     </div>
 
+    <div class="timer_progress_bar">
+      <div class="timer_progress"></div>
+    </div>
+
     <div class="container">
       <div class="timer-holder">
-        <div class="timer">1:05</div>
+        <div class="timer clicky"></div>
       </div>
+      <button id="skipBtn" class="clicky">
+        <img src="assets/images/menu-btn-dark.svg" alt="menu-btn-dark" class="bg-icon" />
+        <img src="assets/images/next.svg" alt="skip" title="Skip timer" class="fg-icon" />
+        <div>SKIP</div>
+      </button>
     </div>
 
     <div class="button-bar">
-      <button id="startBtn" class="theme-btn">play</button>
+      <div class="roundsToBreak clicky">
+        <img id="brawl_pass" src="assets/images/brawl_pass_normal.svg" alt="brawlpass" />
+        <div id="cycle_number_holder">
+          <div id="cycle_number">0</div>
+        </div>
+        <img id="xp_icon" src="assets/images/xp.svg" alt="xp" />
+        <div id="xp_bar">
+          <div class="xp_bar_progress"></div>
+        </div>
+      </div>
+      <div id="currentRound" class="clicky">
+        <img src="assets/images/gem_grab.svg" alt="gem_grab" class="gem" />
+        <div class="round-text">
+          <div class="round-mode">Focus Time</div>
+          <div class="round-duration">25 Minutes</div>
+        </div>
+      </div>
+      <button id="startBtn" class="theme-btn clicky">play</button>
       <!-- Mute Music! -->
     </div>
   </main>
