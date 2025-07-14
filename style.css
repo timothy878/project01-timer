@@ -47,6 +47,7 @@ h1, h2, h3, h4, h5, h6 {
 
 :root {
   --light-green: #CCD5AE;
+  --brawl-red: hsl(0, 88%, 52%);
 }
 
 .theme-btn {
@@ -130,6 +131,8 @@ button:active {
 }
 
 .container {
+  /* min-height: 30dvh; */
+  position: relative;
   display: flex;
   justify-content: center;
 }
@@ -137,11 +140,11 @@ button:active {
 .timer-holder {
   display: flex;
   justify-content: center;
-  font-family: Roboto, sans-serif;
+  font-family: 'Lilita One', sans-serif;
   font-weight: 400;
   background-color: rgba(255, 255, 255, 0.2);
   padding: 4.5rem min(20%, 15rem);
-  font-size: clamp(2rem, 5rem, 8rem);
+  font-size: clamp(1rem, 20dvw, 8rem);
   width: clamp(40%, 30rem, 70%);
   
   border-radius: 1.5rem;
@@ -149,32 +152,184 @@ button:active {
 }
 
 .timer {
+  color: white;
+  text-shadow: 0 0.4rem black;
+  -webkit-text-stroke: 0.1rem black;
   opacity: 100%;
 }
 
 .button-bar {
+  position: relative;
   margin-top: 2.5rem;
-  padding-right: 2rem;
+  padding: 0 clamp(0px, 3dvw, 2rem);
   display: flex;
+  justify-content: space-between;
+  border: 2px solid red;
 }
 
-#startBtn {
+#startBtn,
+#currentRound,
+.roundsToBreak {
   border: 1px solid black;
-  margin-left: auto;
-  transform: skew(-4deg);
+  transform: skew(-10deg);
   transition: transform 0.2s ease;
   font-size: 2rem;
-  padding: 1rem 4rem;
-  width: 14rem;
+  padding: 1rem 2.5rem;
   text-shadow: 0.1rem 0.1rem black;
   -webkit-text-stroke: 0.06rem black;
 }
 
+#startBtn {
+  width: 11rem;
+}
+
 #startBtn:hover {
-  transform: skew(-4deg) scale(0.97);
+  transform: skew(-10deg) scale(0.97);
   background: var(--brawl-yellow-hovered);
 }
 
 #startBtn:active {
-  transform: skew(-4deg) scale(0.95);
+  transform: skew(-10deg) scale(0.95);
+}
+
+#skipBtn {
+  margin-left: auto;
+  position: absolute;
+  width: 4rem;
+  bottom: 0;
+  right: 3dvw;
+  box-shadow: none;
+  /* border: 2px solid red; */
+}
+
+#skipBtn:hover {
+  transform: scale(0.97);
+}
+
+#skipBtn:active {
+  transform: scale(0.94);
+}
+
+#skipBtn img,
+#skipBtn div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  pointer-events: none;
+}
+
+#skipBtn .bg-icon {
+  z-index: 1;
+  width: 5rem;
+}
+
+#skipBtn .fg-icon {
+  width: 2rem;
+  height: 2rem;
+  transform: translate(-50%, -95%);
+  z-index: 2;
+}
+
+#skipBtn div {
+  z-index: 3;
+  transform: translate(-50%, -25%);
+  text-shadow: 0.1rem 0.1rem black;
+  -webkit-text-stroke: 0.06rem black;
+}
+
+#currentRound {
+  border-radius: 12px;
+  width: clamp(10rem, 45%, 30rem);
+  background-color: #2F3C5D;
+  box-shadow: 0.1rem 0.1rem black;
+}
+
+.roundsToBreak {
+  border-radius: 12px;
+  width: 8rem;
+  flex-shrink: 0;
+  background-color: hsl(50, 100%, 52%);
+  box-shadow: 0.1rem 0.1rem black;
+}
+
+.roundsToBreak:hover {
+  transform: skew(-10deg) scale(0.97);
+  background: hsl(50, 100%, 48%);
+}
+
+.roundsToBreak:active {
+  transform: skew(-10deg) scale(0.95);
+}
+
+.roundsToBreak #brawl_pass {
+  transform: skew(10deg) scale(1);
+  position: absolute;
+  top: -1.25rem;
+  right: 2.75rem;
+  width: 6.5rem;
+}
+
+
+.roundsToBreak #xp_icon {
+  transform: skew(10deg) scale(0.4) rotate(5deg);
+  position: absolute;
+  top: 0.5rem;
+  right: 3.5rem;
+  width: 6.5rem;
+  z-index: 1;
+}
+
+#xp_bar {
+  position: absolute;
+  height: 1.5rem;
+  width: 5.9rem;
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  bottom: 0.5rem;
+  left: 1.7rem;
+  overflow: hidden;
+  /* background-color: hsl(50, 100%, 30%); */
+  background: linear-gradient(
+    to bottom,
+    hsl(50, 100%, 22%) 0%,
+    hsl(50, 100%, 22%) 50%,
+    hsl(50, 100%, 26%) 50%,
+    hsl(50, 100%, 26%) 100%
+  );
+  /* background: linear-gradient(to right, brown, blue); */
+}
+
+.xp_bar_progress {
+  transform: skew(10deg);
+  transition: width 0.8s ease;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    to bottom,
+    hsl(46, 100%, 60%) 0%,
+    hsl(46, 100%, 60%) 50%,
+    hsl(46, 100%, 40%) 50%,
+    hsl(46, 100%, 40%) 100%
+  );
+}
+
+#cycle_number_holder {
+  transform: skew(10deg);
+  position: absolute;
+  height: 2.5rem;
+  width: 2.5rem;
+  top: -0.8rem;
+  right: 0.15rem;
+  border-radius: 50%;
+  background-color: rgba(92, 93, 97, 10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#cycle_number {
+  font-family: 'Lilita One', sans-serif;
+  color: white;
 }
