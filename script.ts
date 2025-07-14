@@ -1,3 +1,7 @@
+import gemGrab from './assets/images/gem_grab.svg'
+import brawlBall from './assets/images/brawl_ball.svg'
+import bounty from './assets/images/bounty.svg'
+
 type timer_state = 
             "idle" |
             "running" |
@@ -7,6 +11,12 @@ type mode =
         "focused" |
         "short_break" |
         "long_break"
+
+const modeToNum = new Map<mode, number>([
+        ["focused", 1500],
+        ["short_break", 300],
+        ["long_break", 1200]
+])
 
 function setupAudio() {
     const audio_btn = document.querySelector("#audio") as HTMLElement | null
@@ -19,7 +29,7 @@ function setupAudio() {
         if (timer.background_music !== null) {
             if (timer.background_music.muted) {
                 timer.background_music.muted = false
-                timer.background_music.volume = 0.1
+                timer.background_music.volume = 0.5
                 timer.background_music.play()
 
                 audio_icon.alt = "mute"
@@ -84,25 +94,64 @@ function setupNextRound() {
         timer.current_mode = "focused"
     }
 
+    const round_mode = document.querySelector(".round-mode") as HTMLElement | null
+    const round_duration = document.querySelector(".round-duration") as HTMLElement | null
 
-    const modeToNum = new Map<mode, number>([
-        ["focused", 1500],
-        ["short_break", 300],
-        ["long_break", 900]
-    ])
+    const mode_icon = document.querySelector("#currentRound img") as HTMLImageElement | null
+    if (mode_icon!== null && timer.current_mode === "long_break") {
+        mode_icon.classList.remove("gem")
+        mode_icon.classList.remove("bounty")
+        mode_icon.classList.add("ball")
+        mode_icon.src = brawlBall
+
+        if (round_mode) round_mode.textContent = "Brawl Break!"
+        if (round_duration) {
+            round_duration.style.color = "#aab5ed"
+            round_duration.textContent = "20 minutes"
+        }
+    } else if (mode_icon !== null && timer.current_mode === "focused") {
+        mode_icon.classList.remove("ball")
+        mode_icon.classList.remove("bounty")
+        mode_icon.classList.add("gem")
+        mode_icon.src = gemGrab
+        
+        if (round_mode) round_mode.textContent = "Focus Time"
+        if (round_duration) {
+            round_duration.style.color = "hsl(283, 89%, 58%)"
+            round_duration.textContent = "25 minutes"
+        }
+    } else if (mode_icon !== null && timer.current_mode === "short_break") {
+        mode_icon.classList.remove("ball")
+        mode_icon.classList.remove("gem")
+        mode_icon.classList.add("bounty")
+        mode_icon.src = bounty
+
+        if (round_mode) round_mode.textContent = "Short Break"
+        if (round_duration) {
+            round_duration.style.color = "rgba(0,208,255,255)"
+            round_duration.textContent = "5 minutes"
+        }
+    }
 
     timer.current_time = modeToNum.get(timer.current_mode) ?? 0
+    timer.starting_time = timer.current_time
     minutesToSeconds()
 
-    if (timer.progress_bar) {
+    if (timer.brawl_pass_progress_bar) {
         const progress = (timer.current_round % 8) / 8 * 100
         if (progress === 0 && timer.display_cycle) {
             timer.current_cycle++;
             timer.display_cycle.textContent= String(timer.current_cycle)
             playSoundEffect("#level-brawl-pass")
+            timer.brawl_pass_progress_bar.style.width = "110%"
+
+            setTimeout(() => {
+              if (timer.brawl_pass_progress_bar !== null) timer.brawl_pass_progress_bar.style.width = "0%"
+            }, 750)
+        } else {
+            timer.brawl_pass_progress_bar.style.width = `${progress}%`
         }
         console.log(`progress = ${progress} and cycle = ${timer.current_round}`)
-        timer.progress_bar.style.width = `${progress}%`
     }
 
     console.log(`mode = ${timer.current_mode}: ${modeToNum.get(timer.current_mode)}`)
@@ -121,7 +170,12 @@ function setupPlayButton() {
             timer.interval_id = setInterval(() => {
                 if (timer.current_time !== null){
                     if (timer.current_time <= 0) {
-                        playSoundEffect("#end-sound")  
+                        play.textContent = "play"
+                        play.classList.toggle("alt-theme")
+                        timer.current_state = "idle"
+                        playSoundEffect("#end-sound") 
+                        if (timer.time_progress_bar !== null) timer.time_progress_bar.style.width = `100%`
+ 
                         setupNextRound()
                     } else {
                         if (timer.current_time === 15) {
@@ -129,6 +183,10 @@ function setupPlayButton() {
                         }
                         console.log(timer.current_time)
                         minutesToSeconds()
+                        
+                        const progress = (1 - (timer.current_time / timer.starting_time)) * 100
+                        if (timer.time_progress_bar !== null) timer.time_progress_bar.style.width = `${progress}%`
+                        
                         timer.current_time -= 1
                     }
                 }
@@ -155,6 +213,12 @@ function setupTimer(state: timer_state, mode: mode, time: number, round: number)
 function setupSkipButton() {
     const skip = document.querySelector("#skipBtn")
     skip?.addEventListener("click", () => {
+        const play = document.querySelector("#startBtn") as HTMLButtonElement | null
+        if (play !== null && play.textContent === "Pause") {
+            play.textContent = "play"
+            play.classList.toggle("alt-theme")
+            timer.current_state = "idle"
+        }
         setupNextRound()
     })
 }
@@ -171,7 +235,8 @@ function setupButtonSfx() {
 function setupEventListeners() {
     timer.display_time = document.querySelector(".timer")
     timer.display_cycle = document.querySelector("#cycle_number")
-    timer.progress_bar = document.querySelector(".xp_bar_progress")
+    timer.brawl_pass_progress_bar = document.querySelector(".xp_bar_progress")
+    timer.time_progress_bar = document.querySelector(".timer_progress")
 
     setupAudio()
     setupTimer("idle", "focused", 1500, 1)
@@ -188,13 +253,16 @@ const timer = {
     current_state: null as timer_state | null,
     current_mode: null as mode | null,
     current_time: 1500,
+    starting_time: 1500,
     display_time: null as HTMLElement | null,
     current_round: 1,
     current_cycle: 0,
     display_cycle: null as HTMLElement | null,
     interval_id: undefined as number | undefined,
-    progress_bar: null as HTMLElement | null,
+    brawl_pass_progress_bar: null as HTMLElement | null,
+    time_progress_bar: null as HTMLElement | null,
     background_music: null as HTMLAudioElement | null,
+    play: null as HTMLButtonElement | null,
 }
 
 main()

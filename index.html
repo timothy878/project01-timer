@@ -31,9 +31,13 @@
       </button>
     </div>
 
+    <div class="timer_progress_bar">
+      <div class="timer_progress"></div>
+    </div>
+
     <div class="container">
       <div class="timer-holder">
-        <div class="timer">1:05</div>
+        <div class="timer clicky"></div>
       </div>
       <button id="skipBtn" class="clicky">
         <img src="assets/images/menu-btn-dark.svg" alt="menu-btn-dark" class="bg-icon" />
@@ -53,10 +57,12 @@
           <div class="xp_bar_progress"></div>
         </div>
       </div>
-      <div id="currentRound">
-        <!-- <img src="assets/images/widebutton.svg" alt="menu-btn-dark" class="bg-icon" /> -->
-        <!-- <img src="assets/images/next.svg" alt="skip" title="Skip timer" class="fg-icon" /> -->
-        <!-- <div>SKIP</div> -->
+      <div id="currentRound" class="clicky">
+        <img src="assets/images/gem_grab.svg" alt="gem_grab" class="gem" />
+        <div class="round-text">
+          <div class="round-mode">Focus Time</div>
+          <div class="round-duration">25 Minutes</div>
+        </div>
       </div>
       <button id="startBtn" class="theme-btn clicky">play</button>
       <!-- Mute Music! -->
